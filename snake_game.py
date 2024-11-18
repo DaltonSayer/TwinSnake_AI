@@ -18,6 +18,7 @@ class snake_game:
             self.GUI = graphics.snakeGUI(width, height)
         self.rendering = rendering
 
+    
     def reset(self):
         self.snake_list = []
         self.snake_list.append([random.randint(0,self.game_width), random.randint(0,self.game_height)]) #spawn the snake at a random loaction
@@ -28,7 +29,7 @@ class snake_game:
         ret = False
         if(location[0] < 0 or location[0] > self.game_width-1):
             ret = True
-        if(location[1] < 0 or location[0] > self.game_height-1):
+        if(location[1] < 0 or location[1] > self.game_height-1):
             ret = True
         return ret
 
@@ -50,6 +51,7 @@ class snake_game:
         
         if((new_head in self.snake_list) or self._out_of_bounds(new_head)):
             terminated = True
+            reward = -5
         
         self.snake_list.append(new_head)
         if reverse:
