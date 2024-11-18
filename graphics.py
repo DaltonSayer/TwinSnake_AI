@@ -9,12 +9,14 @@ class snakeGUI:
 
 
     def __init__(self, width, height, square_size=20):
+        pygame.init()
         self.width = width
         self.height = height
         self.square_size = square_size
         screen_width = width * square_size
         screen_height = height * square_size
         self.screen = pygame.display.set_mode((screen_width, screen_height))
+        self.font = pygame.font.Font(None, 30)
         self.draw_grid()
     
     #Draw the board
@@ -35,8 +37,12 @@ class snakeGUI:
     def draw_square(self, x , y , colour):
         pygame.draw.rect(self.screen, colour, (x*self.square_size, y*self.square_size, self.square_size, self.square_size))
 
-    #Draw the snake
-    
+    def draw_score(self, score):
+        # Render the score text
+        score_text = self.font.render(f"{score}", False, (255, 255, 255))
+        self.screen.blit(score_text, (10, 10))
+        
+    #Draw the game
     def draw_snake(self, apple_pos, snake_list):  
         self.draw_grid()
         self.draw_square(apple_pos[0], apple_pos[1], snakeGUI.red)
@@ -44,6 +50,7 @@ class snakeGUI:
             self.draw_square(x, y, snakeGUI.white)
         [x,y] = snake_list[-1]
         self.draw_square(x, y, snakeGUI.black)
+        self.draw_score(len(snake_list)-1)
         pygame.display.update()
         pass
 
