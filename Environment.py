@@ -20,7 +20,6 @@ class Environment:
              state = 0
              for i in range(len(ns)):
                   state += ns[i] * (2**i)
-             print(state)
              return reward, state, terminated 
         
         def reset(self):

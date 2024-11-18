@@ -23,6 +23,7 @@ class snake_game:
         self.snake_list = []
         self.snake_list.append([random.randint(0,self.game_width), random.randint(0,self.game_height)]) #spawn the snake at a random loaction
         self.snake_length = 1    
+        self.apple_pos = self._spawn_apple()
         return self
     
     def _out_of_bounds(self, location):
@@ -51,7 +52,7 @@ class snake_game:
         
         if((new_head in self.snake_list) or self._out_of_bounds(new_head)):
             terminated = True
-            reward = -5
+            reward = -10
         
         self.snake_list.append(new_head)
         if reverse:

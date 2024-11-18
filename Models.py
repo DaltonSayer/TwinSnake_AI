@@ -76,8 +76,8 @@ def DynaQ(env, gamma:float, step_size:float, epsilon:float, max_episode:int, max
             #Model(S,A) <- R, S' (assuming deterministic)
             Model[S][action] = [reward, new_state]
             PlanningUpdate(q, Model, max_model_step, step_size, gamma)
-
             S = new_state
+            print(np.max(q[S]))
     return q
 
 
