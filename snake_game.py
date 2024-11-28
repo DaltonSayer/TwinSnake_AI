@@ -4,7 +4,7 @@ import numpy as np
 
 
 class snake_game:
-    def __init__(self, width=20, height=20, rendering=True):
+    def __init__(self, width=20, height=20, rendering=True, force_spawn_zero=False):
         # Stores the position of the snake
         self.snake_list = []
         self.snake_list.append([random.randint(0,width), random.randint(0,height)]) #spawn the snake at a random loaction
@@ -17,11 +17,15 @@ class snake_game:
         if(rendering):
             self.GUI = graphics.snakeGUI(width, height)
         self.rendering = rendering
+        self.force_spawn_zero = force_spawn_zero
 
     
     def reset(self):
         self.snake_list = []
-        self.snake_list.append([random.randint(0,self.game_width), random.randint(0,self.game_height)]) #spawn the snake at a random loaction
+        if(not self.force_spawn_zero):
+            self.snake_list.append([random.randint(0,self.game_width-1), random.randint(0,self.game_height-1)]) #spawn the snake at a random loaction
+        else:
+            self.snake_list.append([0,0])
         self.snake_length = 1    
         self.apple_pos = self._spawn_apple()
         return self

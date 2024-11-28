@@ -1,12 +1,21 @@
 import numpy as np
 import time
 
-
 def EpsilonGreedy(state_action, n_actions, epsilon):
     if(np.random.random() > epsilon):
         return np.argmax(state_action)
     else:
         return np.random.randint(0, n_actions)
+
+def OnPolicy(env, q, max_episode=1):
+     for _ in range(max_episode):
+          S = env.reset()
+          terminated = False
+          while(not terminated):
+               time.sleep(0.05)
+               action = np.argmax(q[S])
+               reward, new_state, terminated = env.step(action)
+               S = new_state
 
 def Qlearning(env, gamma:float, step_size:float, epsilon:float, max_episode:int, q = None):
     #Initialize Q(s,a) ∀s∈S, ∀a∈A arbitrarily
@@ -36,7 +45,9 @@ def Qlearning(env, gamma:float, step_size:float, epsilon:float, max_episode:int,
             S = new_state
     return q
 
-def DynaQ(env, gamma:float, step_size:float, epsilon:float, max_episode:int, max_model_step:int, q= None):
+
+
+def DynaQ(env, gamma:float, step_size:float, epsilon:float, max_episode:int, max_model_step:int = 10, q= None):
     def PlanningUpdate(q, Model, max_model_step:int, step_size, gamma):
         #Loop repeat n times:
         for _ in range(max_model_step):
@@ -81,15 +92,5 @@ def DynaQ(env, gamma:float, step_size:float, epsilon:float, max_episode:int, max
     return q
 
 
-
-def OnPolicy(env, q, max_episode=1):
-     for _ in range(max_episode):
-          S = env.reset()
-          terminated = False
-          while(not terminated):
-               time.sleep(0.05)
-               action = np.argmax(q[S])
-               reward, new_state, terminated = env.step(action)
-               S = new_state
 
 
