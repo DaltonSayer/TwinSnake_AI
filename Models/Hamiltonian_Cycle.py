@@ -161,6 +161,7 @@ def double_resolution(grid):
 def navigate_path(width, height, location):
     m = Maze(width//2, height//2)
     grid = double_resolution(m.grid)
+    print(m.grid)
     actions = []
     [x,y] = location
     following = grid[x][y]
