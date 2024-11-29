@@ -48,19 +48,21 @@ class MazeGUI:
     
     def draw_maze(self):
         maze = hc.Maze(self.width, self.height)
+        maze.make_path()
         grid = maze.grid#hc.Maze.scale_maze(maze.grid)
-        self.screen.fill(MazeGUI.white)
+        self.screen.fill(MazeGUI.grey)
         
         for x in range(0, (self.width*self.square_size) + (2*self.line_width*self.width), self.square_size+(2*self.line_width)):
             for y in range(0, self.height * self.square_size + (2*self.line_width*self.height), self.square_size+(2*self.line_width)):
-                pygame.draw.rect(self.screen, MazeGUI.grey, (x,y, self.square_size, self.square_size))
+                pygame.draw.rect(self.screen, MazeGUI.white, (x,y, self.square_size, self.square_size))
 
                 pygame.display.update()
     
         for x in range(len(grid)):
             for y in range(len(grid[0])):
                 self.draw_line(x,y, grid[x][y])
-        
+
                     
 x= MazeGUI(20, 20)
+
 time.sleep(100)

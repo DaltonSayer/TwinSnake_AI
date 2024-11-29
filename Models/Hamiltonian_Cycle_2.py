@@ -7,6 +7,7 @@ class Maze:
     RIGHT_INDEX = 1
     UP_INDEX = 0
     DOWN_INDEX = 2
+    
     #Each [i][j] in the grid will be [leftOpen, rightOpen, upOpen, downOpen]
     def __init__(self, width, height):
         self.grid = np.zeros([width//2, height//2, 4], dtype=bool)
@@ -92,121 +93,223 @@ class Maze:
                 new_grid[2*x +1][(2*y)+1][Maze.RIGHT_INDEX] = right
         return new_grid
     
-    def get_dir(cur : list[int, int], prev : list[int, int]):
-        [x, y] = prev
-        [i, j] = cur
-        if(x<i):#went right
-            #print("went right")
-            return Maze.RIGHT_INDEX
-        if(i<x):#went left
-            #print("went left")
-            return Maze.LEFT_INDEX
-        if(y>j):#went up
-            #print("went up")
-            return Maze.UP_INDEX
-        if(y<j):#went down
-            #print("went down")
-            return Maze.DOWN_INDEX
+    # def get_dir(cur : list[int, int], prev : list[int, int]):
+    #     [x, y] = prev
+    #     [i, j] = cur
+    #     if(x<i):#went right
+    #         #print("went right")
+    #         return Maze.RIGHT_INDEX
+    #     if(i<x):#went left
+    #         #print("went left")
+    #         return Maze.LEFT_INDEX
+    #     if(y>j):#went up
+    #         #print("went up")
+    #         return Maze.UP_INDEX
+    #     if(y<j):#went down
+    #         #print("went down")
+    #         return Maze.DOWN_INDEX
         
-    def  get_move(self, snake_list: list[list[int,int]], dir=-1):
+    # def  get_move(self, snake_list: list[list[int,int]], dir=-1):
         
-        orders = [[],[],[],[]]
-        orders[Maze.UP_INDEX] = [Maze.RIGHT_INDEX, Maze.UP_INDEX, Maze.LEFT_INDEX]
-        orders[Maze.DOWN_INDEX] = [Maze.LEFT_INDEX, Maze.DOWN_INDEX, Maze.RIGHT_INDEX]
-        orders[Maze.RIGHT_INDEX] = [Maze.DOWN_INDEX, Maze.RIGHT_INDEX, Maze.UP_INDEX]
-        orders[Maze.LEFT_INDEX] = [Maze.UP_INDEX, Maze.LEFT_INDEX, Maze.DOWN_INDEX]
-        action = [0,0,0,0]
-        action[Maze.UP_INDEX] = 2
-        action[Maze.DOWN_INDEX] = 3
-        action[Maze.LEFT_INDEX] = 0
-        action[Maze.RIGHT_INDEX] = 1
+    #     orders = [[],[],[],[]]
+    #     orders[Maze.UP_INDEX] = [Maze.RIGHT_INDEX, Maze.UP_INDEX, Maze.LEFT_INDEX]
+    #     orders[Maze.DOWN_INDEX] = [Maze.LEFT_INDEX, Maze.DOWN_INDEX, Maze.RIGHT_INDEX]
+    #     orders[Maze.RIGHT_INDEX] = [Maze.DOWN_INDEX, Maze.RIGHT_INDEX, Maze.UP_INDEX]
+    #     orders[Maze.LEFT_INDEX] = [Maze.UP_INDEX, Maze.LEFT_INDEX, Maze.DOWN_INDEX]
+    #     action = [0,0,0,0]
+    #     action[Maze.UP_INDEX] = 2
+    #     action[Maze.DOWN_INDEX] = 3
+    #     action[Maze.LEFT_INDEX] = 0
+    #     action[Maze.RIGHT_INDEX] = 1
         
 
-        if(len(snake_list) > 1):
-            dir = Maze.get_dir(snake_list[-1], snake_list[-2])
+    #     if(len(snake_list) > 1):
+    #         dir = Maze.get_dir(snake_list[-1], snake_list[-2])
             
-        cur = self.grid[snake_list[-1][0]][snake_list[-1][1]]
-        for d in orders[dir]:
-            if(cur[d] == 1):
-                return action[d], d
-        # print(dir)
-        # return action[d], dir
-    def get_move_2(self, snake_head):
-        action = [0,0,0,0]
-        action[Maze.UP_INDEX] = 2
-        action[Maze.DOWN_INDEX] = 3
-        action[Maze.LEFT_INDEX] = 0
-        action[Maze.RIGHT_INDEX] = 1
-        #can only go up in squares with a even x value x%2 = 0
-        #can only go right in squares with a even y value y%2 = 0
-        [x,y] = snake_head
-        if(x%2 == 0): #can go up, right or left
-            if(y%2 == 0): #can go up, or right
-                if(self.grid[x][y][Maze.RIGHT_INDEX]):
-                    return action[Maze.RIGHT_INDEX]
-                elif(self.grid[x][y][Maze.UP_INDEX]):
-                    # print("cannot go right, moving up")
-                    return action[Maze.UP_INDEX]
-                else:
-                    print("SOMETHING WENT WRONG")
-            else:#can go up or left
-                if(self.grid[x][y][Maze.UP_INDEX]):
-                    return action[Maze.UP_INDEX]
-                elif(self.grid[x][y][Maze.LEFT_INDEX]):
-                    return action[Maze.LEFT_INDEX]
-                else:
-                    print("SOMETHING WENT WRONG")
-        else: #can go down, right or left
-            if(y%2 ==0): #can go down, or right
-                if(self.grid[x][y][Maze.DOWN_INDEX]):
-                    return action[Maze.DOWN_INDEX]
-                elif(self.grid[x][y][Maze.RIGHT_INDEX]):
-                    return action[Maze.RIGHT_INDEX]
-                else:
-                    print("SOMETHING WENT WRONG")
-            else:#can go down or left
-                if(self.grid[x][y][Maze.LEFT_INDEX]):
-                    return action[Maze.LEFT_INDEX]
-                elif(self.grid[x][y][Maze.DOWN_INDEX]):
-                    return action[Maze.DOWN_INDEX]
-                else:
-                    print("SOMETHING WENT WRONG")
+    #     cur = self.grid[snake_list[-1][0]][snake_list[-1][1]]
+    #     for new_d in orders[dir]:
+    #         if(cur[new_d] == 1):
+    #             return action[new_d], new_d
+    #     # print(dir)
+    #     # return action[d], dir
+    # def get_move_2(self, snake_head):
+    #     action = [0,0,0,0]
+    #     action[Maze.UP_INDEX] = 2
+    #     action[Maze.DOWN_INDEX] = 3
+    #     action[Maze.LEFT_INDEX] = 0
+    #     action[Maze.RIGHT_INDEX] = 1
+    #     #can only go up in squares with a even x value x%2 = 0
+    #     #can only go right in squares with a even y value y%2 = 0
+    #     [x,y] = snake_head
+    #     if(x%2 == 0): #can go up, right or left
+    #         if(y%2 == 0): #can go up, or right
+    #             if(self.grid[x][y][Maze.RIGHT_INDEX]):
+    #                 return action[Maze.RIGHT_INDEX]
+    #             elif(self.grid[x][y][Maze.UP_INDEX]):
+    #                 # print("cannot go right, moving up")
+    #                 return action[Maze.UP_INDEX]
+    #             else:
+    #                 print("SOMETHING WENT WRONG")
+    #         else:#can go up or left
+    #             if(self.grid[x][y][Maze.UP_INDEX]):
+    #                 return action[Maze.UP_INDEX]
+    #             elif(self.grid[x][y][Maze.LEFT_INDEX]):
+    #                 return action[Maze.LEFT_INDEX]
+    #             else:
+    #                 print("SOMETHING WENT WRONG")
+    #     else: #can go down, right or left
+    #         if(y%2 ==0): #can go down, or right
+    #             if(self.grid[x][y][Maze.DOWN_INDEX]):
+    #                 return action[Maze.DOWN_INDEX]
+    #             elif(self.grid[x][y][Maze.RIGHT_INDEX]):
+    #                 return action[Maze.RIGHT_INDEX]
+    #             else:
+    #                 print("SOMETHING WENT WRONG")
+    #         else:#can go down or left
+    #             if(self.grid[x][y][Maze.LEFT_INDEX]):
+    #                 return action[Maze.LEFT_INDEX]
+    #             elif(self.grid[x][y][Maze.DOWN_INDEX]):
+    #                 return action[Maze.DOWN_INDEX]
+    #             else:
+    #                 print("SOMETHING WENT WRONG")
 
-    def is_valid(self,pos, dir):
-        [x,y] = pos
-        return self.grid[x][y][dir]
+    # def is_valid(self,pos, dir):
+    #     [x,y] = pos
+    #     return self.grid[x][y][dir]
         
-    def get_move_3(self, snake_head, dir):
-        action = [0,0,0,0]
-        action[Maze.UP_INDEX] = 2
-        action[Maze.DOWN_INDEX] = 3
-        action[Maze.LEFT_INDEX] = 0
-        action[Maze.RIGHT_INDEX] = 1
-        for i in range(3):
-            new_dir = (dir+i) % 4
-            print(new_dir)
-            if(self.is_valid(snake_head, new_dir) == 1):
-                return action[new_dir], new_dir
-        print("STUCK")
+    # def get_move_3(self, snake_head, dir):
+    #     action = [0,0,0,0]
+    #     action[Maze.UP_INDEX] = 2
+    #     action[Maze.DOWN_INDEX] = 3
+    #     action[Maze.LEFT_INDEX] = 0
+    #     action[Maze.RIGHT_INDEX] = 1
+    #     for i in range(-1,3):
+    #         new_dir = (dir+i) % 4
+    #         print(new_dir)
+    #         if(self.is_valid(snake_head, new_dir) == 1):
+    #             return action[new_dir], new_dir
+    #     print("STUCK")
             
+    def make_path(self):
+        x = y = 0
+        dir = Maze.RIGHT_INDEX
+        directions = [[],[],[],[]]
+        directions[Maze.RIGHT_INDEX] = [1,0]
+        directions[Maze.UP_INDEX] = [0,-1]
+        directions[Maze.LEFT_INDEX] = [-1,0]
+        directions[Maze.DOWN_INDEX] = [0,1]
+        path = []
+        terminated = False
+        while not terminated:
+            dir = self.findNextDir(x, y, dir)
+            [i, j] = directions[dir]
+            if([x,y] in path):
+                terminated = True
+                print(path)
+            else:
+                path.append([x,y])
+                x += i
+                y += j
+            print(len(path))
+        return path
+        # [x,y] = [0,0]
+        # directions = [[0,-1],[1,0],[0,1],[-1,0]]
+        # for i in range(0,4):    
+        #     [x,y] = [0,0]
+        #     dir = i
+        #     path = []
+        #     skip = False
+        #     while not skip:
+        #         for i in range(0,4):
+        #             if(not skip):
+        #                 new_dir = (dir + i)%4
+        #                 if(self.is_valid([x,y], new_dir) == 1):
+        #                     dir = new_dir
+        #                     if([x,y] in path):
+        #                         print(path)
+        #                         print([x,y])
+        #                         skip = True
+        #                     path.append([x,y])
+        #                     [j,k] = directions[dir]
+        #                     [x,y] = [x+j, y+k]
             
-            
-# g = Maze(10, 10)
+    def canGoUp(self, x, y)-> bool:
+        return self.grid[x][y][Maze.UP_INDEX] == 1
+    def canGoRight(self, x, y)-> bool:
+        return self.grid[x][y][Maze.RIGHT_INDEX] == 1
+    def canGoDown(self, x,y)-> bool:
+        return self.grid[x][y][Maze.DOWN_INDEX] == 1
+    def canGoLeft(self, x,y) -> bool: 
+        return self.grid[x][y][Maze.LEFT_INDEX] == 1
+    
+    def findNextDir(self, x, y, dir):
+        Right = Maze.RIGHT_INDEX
+        Up = Maze.UP_INDEX
+        Down = Maze.DOWN_INDEX
+        Left = Maze.LEFT_INDEX
+        if (dir == Right):
+            if(self.canGoUp(x,y)):
+                return Up
+            if(self.canGoRight(x,y)):
+                return Right
+            if(self.canGoDown(x,y)):
+                return Down
+            return Left
+        elif(dir == Down):
+            if(self.canGoRight(x,y)):
+                return Right
+            if(self.canGoDown(x,y)):
+                return Down
+            if(self.canGoLeft(x,y)):
+                return Left
+            return Up
+        elif(dir == Left):
+            if(self.canGoDown(x,y)):
+                return Down
+            if(self.canGoLeft(x,y)):
+                return Left
+            if(self.canGoUp(x,y)):
+                return Up
+            return Right
+        elif(dir == Up):
+            if(self.canGoLeft(x,y)):
+                return Left
+            if(self.canGoUp(x,y)):
+                return Up
+            if(self.canGoRight(x,y)):
+                return Right
+            return Down
+        return None #unreachable something broke
+
+def get_action(state1, state2):
+    if(state1[0] - 1 == state2[0]): return 0
+    if(state1[0] + 1 == state2[0]): return 1
+    if(state1[1] - 1 == state2[1]): return 2
+    if(state1[1] + 1 == state2[1]): return 3
+    print("BAD")
+    return 1
+def get_action_from_dir(dir):
+        directions = [[],[],[],[]]
+        directions[Maze.RIGHT_INDEX] = 1
+        directions[Maze.UP_INDEX] = 2
+        directions[Maze.LEFT_INDEX] = 0
+        directions[Maze.DOWN_INDEX] = 3
 
 # print(g.grid)
-def cycleSnake(env, max_episodes:int=1):
+def cycleSnake(env, max_episodes:int=10):
     terminated = False
-    i = 0
     dir = 1
     for _ in range(max_episodes):
         env.reset()
+        m = Maze(env.game.game_width, env.game.game_height)
+        path = []
+        path = m.make_path()
         while not terminated:
-            time.sleep(0.1)
-            m = Maze(env.game.game_width, env.game.game_height)
-            #action, dir = m.get_move(env.game.snake_list, dir)
-            action, dir = m.get_move_3(env.game.snake_list[-1], dir)
-            prev = env.game.snake_list[-1]
-            i, _, terminated = env.step(action)
-            cur = env.game.snake_list[-1]
-            #dir = Maze.get_dir(cur, prev)
+            #time.sleep(0)
+            cur = path.index(env.game.snake_list[-1])
+            next = (cur+dir)%len(path)
+            action = get_action(path[cur], path[next])
+            reward, new_state, terminated = env.step(action)
+            if(reward):
+                dir = -1*dir
         
