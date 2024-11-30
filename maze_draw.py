@@ -1,4 +1,4 @@
-import Models.Hamiltonian_Cycle_2 as hc
+import Models.pathBuilding.Hamiltonian_Cycle as hc
 import pygame
 import time
 
@@ -63,6 +63,6 @@ class MazeGUI:
                 self.draw_line(x,y, grid[x][y])
 
                     
-x= MazeGUI(20, 20)
+x= MazeGUI(10, 10)
 
 time.sleep(100)

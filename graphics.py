@@ -4,6 +4,7 @@ class snakeGUI:
     white = (255, 255, 255)
     black = (0,0,0)
     red = (213, 50, 80)
+    blue = (0, 240, 255, 0.341)
     dark_square = (162, 209, 73)
     light_square = (170, 215, 81)
 
@@ -17,6 +18,7 @@ class snakeGUI:
         screen_height = height * square_size
         self.screen = pygame.display.set_mode((screen_width, screen_height))
         self.font = pygame.font.Font(None, 30)
+        self.imaginary_snake = None
         self.draw_grid()
     
     #Draw the board
@@ -41,15 +43,19 @@ class snakeGUI:
         # Render the score text
         score_text = self.font.render(f"{score}", False, (255, 255, 255))
         self.screen.blit(score_text, (10, 10))
+    
         
     #Draw the game
-    def draw_snake(self, apple_pos, snake_list):  
+    def draw_snake(self, apple_pos, snake_list, head_colour=black, body_colour=white, apple_colour=red, imaginary_colour=blue):
         self.draw_grid()
-        self.draw_square(apple_pos[0], apple_pos[1], snakeGUI.red)
+        if(self.imaginary_snake != None):
+            for [x,y] in self.imaginary_snake:
+                self.draw_square(x,y, imaginary_colour)
+        self.draw_square(apple_pos[0], apple_pos[1], apple_colour)
         for [x, y] in snake_list:
-            self.draw_square(x, y, snakeGUI.white)
+            self.draw_square(x, y, body_colour)
         [x,y] = snake_list[-1]
-        self.draw_square(x, y, snakeGUI.black)
+        self.draw_square(x, y, head_colour)
         self.draw_score(len(snake_list)-1)
         pygame.display.update()
         pass

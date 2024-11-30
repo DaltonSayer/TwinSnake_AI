@@ -124,13 +124,14 @@ def search_for_actions(graph, start_index, goal_index):
 
 
 
-def pathfinding(env, max_episode:int):
+def pathfinding(env, max_episode:int, sleep=0):
     terminated = False
     env.reset()
     for x in range(max_episode):
         actions = []
         while not terminated:
-            #time.sleep(0.05)
+            if(sleep > 0):
+                time.sleep(sleep)
             head_index = env.game.snake_list[-1]
             fruit_index = env.game.apple_pos
             graph = State_Graph(env.game.snake_list, [env.game.game_width, env.game.game_height])
