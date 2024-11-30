@@ -102,7 +102,7 @@ def find_shortcut(env, path:list[list[int,int]], snakelist:list[list[int,int]], 
     # cur = path.index(head)
     # return (cur+dir)%len(path)
 
-def shortCycleSnake(env, max_episodes:int=10, render_shortcuts=False, sleep=0):
+def shortCycleSnake(env, max_episodes:int=10, render_shortcuts=False, sleep=0, return_score=False):
     terminated = False
     dir = 1
 
@@ -135,3 +135,5 @@ def shortCycleSnake(env, max_episodes:int=10, render_shortcuts=False, sleep=0):
             if(reward):
                 dir = -1*dir
                 fruit = env.game.apple_pos
+        if(return_score):
+            return (len(env.game.snake_list)-1)

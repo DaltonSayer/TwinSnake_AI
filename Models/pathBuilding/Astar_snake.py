@@ -4,7 +4,7 @@ import numpy as np
 import copy
 import random
 import time
-DEBUG_PRINTING=True
+DEBUG_PRINTING=False
 
 
 class State_Graph:
@@ -124,7 +124,7 @@ def search_for_actions(graph, start_index, goal_index):
 
 
 
-def pathfinding(env, max_episode:int, sleep=0):
+def pathfinding(env, max_episode:int, sleep=0, return_score=False):
     terminated = False
     env.reset()
     for x in range(max_episode):
@@ -139,7 +139,6 @@ def pathfinding(env, max_episode:int, sleep=0):
                 actions = search_for_actions(graph, head_index, fruit_index)
             action = actions.pop(0)
 
-            # path = get_path(G_node)
-            # action = get_action(path)
             reward, new_state, terminated = env.step(action)
-    
+    if(return_score):
+            return(len(env.game.snake_list)-1)

@@ -7,15 +7,19 @@ def EpsilonGreedy(state_action, n_actions, epsilon):
     else:
         return np.random.randint(0, n_actions)
 
-def OnPolicy(env, q, max_episode=1):
+def OnPolicy(env, q, max_episode=1, sleep=0, return_score=False):
      for _ in range(max_episode):
-          S = env.reset()
-          terminated = False
-          while(not terminated):
-               time.sleep(0.05)
-               action = np.argmax(q[S])
-               reward, new_state, terminated = env.step(action)
-               S = new_state
+            S = env.reset()
+            terminated = False
+            while(not terminated):
+                if(sleep > 0):
+                    time.sleep(sleep)
+                action = np.argmax(q[S])
+                reward, new_state, terminated = env.step(action)
+                S = new_state
+            if(return_score):
+                return(len(env.game.snake_list)-1)
+            
 
 def Qlearning(env, gamma:float, step_size:float, epsilon:float, max_episode:int, q = None):
     #Initialize Q(s,a) ∀s∈S, ∀a∈A arbitrarily

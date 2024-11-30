@@ -17,6 +17,7 @@ class snake_game:
         if(rendering):
             self.GUI = graphics.snakeGUI(width, height)
         self.rendering = rendering
+        self.win = False
         self.force_spawn_zero = force_spawn_zero
 
     
@@ -27,6 +28,7 @@ class snake_game:
         else:
             self.snake_list.append([0,0])
         self.snake_length = 1    
+        self.win = False
         self.apple_pos = self._spawn_apple()
         return self
     
@@ -36,6 +38,7 @@ class snake_game:
             ret = True
         if(location[1] < 0 or location[1] > self.game_height-1):
             ret = True
+
         return ret
 
     def step(self, direction):
@@ -49,6 +52,7 @@ class snake_game:
         if(new_head == self.apple_pos):
             reverse = True
             self._collect_apple()
+            if(self.win): return 100, self, True
             reward = 1
         
         if(len(self.snake_list) == self.snake_length):
@@ -66,9 +70,17 @@ class snake_game:
 
         return reward, self, terminated
     
+    def check_win(self):
+        return (self.snake_length == self.game_height * self.game_width)
+
     def _collect_apple(self):
         self.snake_length += 1
-        self.apple_pos = self._spawn_apple()
+        if(not self.check_win()):
+            self.apple_pos = self._spawn_apple()
+        else:
+            self.win = True
+            print("win")
+
         
 
     def _spawn_apple(self):

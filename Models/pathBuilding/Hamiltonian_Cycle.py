@@ -177,7 +177,7 @@ def get_action_from_dir(dir):
         directions[Maze.DOWN_INDEX] = 3
         return directions[dir]
 
-def cycleSnake(env, max_episodes:int=10, sleep=0):
+def cycleSnake(env, max_episodes:int=1, sleep=0, return_score=False):
     terminated = False
     dir = 1
     for _ in range(max_episodes):
@@ -194,4 +194,6 @@ def cycleSnake(env, max_episodes:int=10, sleep=0):
             reward, new_state, terminated = env.step(action)
             if(reward):
                 dir = -1*dir
+        if(return_score):
+            return(len(env.game.snake_list)-1)
         
